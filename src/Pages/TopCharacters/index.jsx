@@ -1,4 +1,5 @@
 import  { useEffect, useState, useRef } from "react";
+import useWindowDimensions from '../../hooks/useWindowDimensions';
 
 const TopCharacters = () => {
     const [animeData, setAnimeData] = useState([]);
@@ -23,13 +24,34 @@ const TopCharacters = () => {
     }
 
     console.log(animeData)
+    const screenSize = useWindowDimensions();
+    console.log(screenSize)
+
+    let characterLimit;
+        switch (screenSize) {
+        case 'xxlarge':
+            characterLimit = 290;
+            break;
+        case 'xlarge':
+            characterLimit = 290;
+            break;
+        case 'large':
+            characterLimit = 280;
+            break;
+        case 'medium':
+            characterLimit = 250;
+            break;
+        case 'small':
+            characterLimit = 150;
+            break;
+        }
+
+        const [isExpanded, setIsExpanded] = useState({});
 
     return (
         <>
-            <div className="flex justify-center mt-4">
-                <h1>Holaaa soy el top</h1>
-            </div>
-            <div className="max-w-2xl mx-auto mt-24" >
+        <h1 className="text-3xl font-bold text-center mt-4">Top Characters</h1>
+            <div className="max-w-4xl mx-auto mt-4" >
             {animeData?.map((character, index) => {
                 return(
                 
@@ -40,25 +62,24 @@ const TopCharacters = () => {
                             className="absolute left-0 top-0 w-full h-full object-cover object-center transition duration-50" 
                             loading="lazy" 
                             src={character?.images?.webp?.image_url} />
+                        <h2 className="absolute left-0  w-full h-full text-transparent top-0 z-10 items-center hover:bg-black  hover:text-white text-2xl font-bold p-2 transition-opacity duration-200  hover:bg-opacity-50">{index+1}</h2>
                     </div>
-
                     <div className="flex flex-col gap-2 py-2">
-
-                        <p className="text-xl font-bold">{character?.name}</p>
-
+                        <div className="flex gap-2 items-center sm:flex">
+                            <p className="text-xl font-bold">{character?.name}</p>
+                            <p className="text-sm font-bold">{character?.name_kanji}</p>
+                        </div>
                         <p className="text-gray-500">
-                            {character?.about?.length > 200 ? character?.about?.substring(0, 200)+ "..." : character?.about}
+                            {isExpanded[character.mal_id] || character?.about?.length <= characterLimit
+                                ? character?.about
+                                : character?.about?.substring(0, characterLimit)}
+                            {character?.about?.length > characterLimit && (
+                                <button className="text-sky-600 ml-1"  onClick={() => setIsExpanded(prevState => ({...prevState, [character.mal_id]: !prevState[character.mal_id]}))}>
+                                    {isExpanded[character.mal_id] ? '..   Read less' : '... Continue'} <span>{isExpanded[character.mal_id] ? '↑' : '↓'}</span>
+                                </button>
+                            )}
                         </p>
-
-                        <span className="flex items-center justify-start text-gray-500">
-                            <svg className="w-4 h-4 mr-1 mt-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z"></path>
-                            </svg>
-                            <a href="amitpachange.com" target="_blank">amitpachange.com</a>
-                        </span>
-
                     </div>
-
                 </div>
 
             
@@ -66,7 +87,7 @@ const TopCharacters = () => {
             }) }
             </div>
             {animeData.length > 0 && 
-                <div className="flex justify-center mt-4">
+                <div className="flex justify-center mt-4 mb-32">
                     <button onClick={loadMore} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Cargar Más</button>
                 </div>
             }
@@ -75,3 +96,4 @@ const TopCharacters = () => {
 };
 
 export default TopCharacters;
+
