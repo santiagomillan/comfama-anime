@@ -1,4 +1,5 @@
 import  { useEffect, useRef, useState } from "react";
+import { NavLink } from "react-router-dom"
 import { BsFillArrowRightSquareFill } from "react-icons/bs";
 import { BsFillArrowLeftSquareFill } from "react-icons/bs";
 
@@ -82,10 +83,10 @@ if (dataCarousel && dataCarousel.length > 0) {
     handleSelectedImageChange(newIdx);
 }
 };
-console.log(selectedImage)
+// console.log(selectedImage)
   return (
     <>
-    <div className="m-0">
+    <div className="mb-40">
     <div className="relative w-full h-[500px] md:flex md:h-auto">
   <div className="w-full h-[500px] md:w-1/2 bg-center bg-no-repeat bg-cover"
     style={{ backgroundImage: `url(${selectedImage?.images?.webp?.large_image_url})` }}
@@ -122,11 +123,17 @@ console.log(selectedImage)
             selectedImage?.genres?.map((genre, idx) => (
             <span key={idx} className="inline-block bg-sky-600 rounded-full px-3 py-1 text-sm font-semibold text-white mr-2 mb-2">{genre.name}</span>
             ))
-        }
-        </div>
-        <div className="md:hidden absolute bottom-0 z-10 bg-opacity-50 bg-black text-white p-4 w-full">
-            <h2 className="text-2xl font-bold">{selectedImage?.title}</h2>
-        </div>
+        }        
+        <button className="flex items-center space-x-2 mt-2 bg-sky-600 hover:bg-sky-700 text-gray-100 px-8 py-2 rounded transition duration-150" title="See more">
+            <NavLink to={`/anime/${selectedImage?.mal_id}`}>See more</NavLink>
+        </button>
+    </div>
+
+    <div className="md:hidden absolute bottom-0 z-10 bg-opacity-50 bg-black text-white p-4 w-full">
+        <h2 className="text-2xl font-bold">{selectedImage?.title}</h2>
+    </div>
+
+
     </div>
     <div className="relative">
         <div className="flex max-w-full overflow-x-hidden">

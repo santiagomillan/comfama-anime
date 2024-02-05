@@ -1,11 +1,12 @@
 import { useState } from "react";
+import { NavLink } from "react-router-dom"
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
-    <nav className="flex items-center justify-between flex-wrap bg-sky-600 p-6">
-        <div className="flex items-center lg:pl-40 flex-shrink-0 text-white mr-6">
+    <nav className="flex items-center justify-between  flex-wrap bg-sky-600 p-6">
+        <div className="flex items-center lg:pl-40 flex-shrink-0 text-white mr-6 sticky z-1">
             <span className="font-semibold text-xl tracking-tight cursor-pointer">ComAnime</span>
         </div>
         <div className="block lg:hidden">
@@ -28,26 +29,16 @@ const Navbar = () => {
             isOpen ? "block" : "hidden"
         } flex items-center w-full lg:flex lg:items-center lg:w-auto`}
         > 
-        <div className="text-sm lg:flex-grow lg:pr-40">
-            <a
-            href="/"
-            className="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-white mr-4"
-            >
-            Home
-            </a>
-            <a
-            href="/top-animes"
-            className="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-white mr-4"
-            >
-            TOP
-            </a>
-            <a
-            href="/"
-            className="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-white"
-            >
-            3 Bigs
-            </a>
-        </div> 
+            <div className="flex justify-between items-center text-sm lg:flex-grow lg:pr-40">
+                <ul className="flex justify-between  mt-4 lg:inline-block lg:mt-0 text-white hover:text-white mr-4">
+                    <li   className="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-white mr-4">
+                        <NavLink to='/'>Home</NavLink>
+                    </li>
+                    <li   className="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-white mr-4">
+                        <NavLink to='/top-animes'>Top Characters</NavLink>
+                    </li>
+                </ul>
+            </div>
         </div>
     </nav>
     );

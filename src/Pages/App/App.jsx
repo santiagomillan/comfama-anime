@@ -5,6 +5,7 @@ import Home from '../Home'
 import TopCharacters from '../TopCharacters'
 import './App.css'
 import NotFound from '../NotFound'
+import Anime from '../Anime'
 
 
 function App() {
@@ -20,6 +21,10 @@ const AppRoutes = () => {
       element: <TopCharacters/>
     },
     {
+      path: '/anime/:id',
+      element: <Anime/>
+    },
+    {
       path: '/*',
       element: <NotFound/>
     }
@@ -29,11 +34,13 @@ const AppRoutes = () => {
 
   return (
     <>
-      <Navbar/>
+      
       <BrowserRouter>
+        <Navbar/>
         <AppRoutes/>
+        <Footer/> 
       </BrowserRouter>
-      <Footer/> 
+      
     </>
   )
 }
