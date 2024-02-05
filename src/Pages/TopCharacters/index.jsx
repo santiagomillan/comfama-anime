@@ -23,9 +23,7 @@ const TopCharacters = () => {
         setPage((prevPage) => prevPage + 1);
     }
 
-    console.log(animeData)
     const screenSize = useWindowDimensions();
-    console.log(screenSize)
 
     let characterLimit;
         switch (screenSize) {

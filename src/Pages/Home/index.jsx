@@ -5,7 +5,7 @@ import SearchBar from "../../Components/SearchBar";
 const Home = () => {
     return (
         <>
-            <div className="flex justify-center mt-4">
+            <div className="flex justify-center my-8">
                 <SearchBar />
             </div>
             <Carousel />

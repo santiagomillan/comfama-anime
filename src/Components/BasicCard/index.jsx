@@ -1,10 +1,8 @@
 import { NavLink } from "react-router-dom"
 
 const BasicCard = (data) => {
-    console.log("DATAAAA", data)
     const info = data?.data?.detalles?.data;
     const tag = data?.data?.relacion?.relation;
-    console.log("INNNNDOOOO", info)
     return (
         // <div className="max-w-screen-xl mx-auto p-5 sm:p-10 md:p-16">
         <div className="rounded overflow-hidden shadow-lg flex flex-col">

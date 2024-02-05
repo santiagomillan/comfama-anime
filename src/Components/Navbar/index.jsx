@@ -6,8 +6,12 @@ const Navbar = () => {
 
     return (
     <nav className="flex items-center justify-between  flex-wrap bg-sky-600 p-6">
-        <div className="flex items-center lg:pl-40 flex-shrink-0 text-white mr-6 sticky z-1">
-            <span className="font-semibold text-xl tracking-tight cursor-pointer">ComAnime</span>
+        <div className="flex items-center justify-center lg:pl-40 flex-shrink-0 text-white mr-6 sticky z-1">
+            <NavLink to='/' className="flex items-center font-semibold text-3xl tracking-tight cursor-pointer">
+                <img className="h-full" src="https://img.icons8.com/fluent/30/000000/cloud-akatsuki.png" />
+                ComAnime
+                <img className="h-full" src="https://img.icons8.com/fluent/30/000000/cloud-akatsuki.png" />
+            </NavLink>
         </div>
         <div className="block lg:hidden">
         <button
@@ -29,11 +33,8 @@ const Navbar = () => {
             isOpen ? "block" : "hidden"
         } flex items-center w-full lg:flex lg:items-center lg:w-auto`}
         > 
-            <div className="flex justify-between items-center text-sm lg:flex-grow lg:pr-40">
+            <div className="flex justify-between items-center text-base lg:flex-grow lg:pr-40">
                 <ul className="flex justify-between  mt-4 lg:inline-block lg:mt-0 text-white hover:text-white mr-4">
-                    <li   className="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-white mr-4">
-                        <NavLink to='/'>Home</NavLink>
-                    </li>
                     <li   className="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-white mr-4">
                         <NavLink to='/top-animes'>Top Characters</NavLink>
                     </li>

@@ -6,15 +6,6 @@ import { BsFillArrowLeftSquareFill } from "react-icons/bs";
 const Carousel = () => {
 const [animeData, setAnimeData] = useState([]);
 
-// useEffect(() => {
-// fetch(`https://api.jikan.moe/v4/top/anime?page=1&limit=5`)
-//     .then((response) => response.json())
-//     .then((data) => {
-//         setAnimeData(data);
-//         setSelectedImage(data.data[0]);
-//     })
-//     .catch((error) => console.log(error));
-// }, []);
 useEffect(() => {
     const cachedData = localStorage.getItem('carouselData');
     if (cachedData) {
@@ -57,8 +48,8 @@ if (dataCarousel && dataCarousel.length > 0) {
     setSelectedImageIndex(newIdx);
     if (carouselItemsRef?.current[newIdx]) {
     carouselItemsRef?.current[newIdx]?.scrollIntoView({
-        inline: "center",
-        behavior: "smooth"
+        inline: "nearest",
+        behavior: "false"
     });
     }
 }
@@ -83,10 +74,9 @@ if (dataCarousel && dataCarousel.length > 0) {
     handleSelectedImageChange(newIdx);
 }
 };
-// console.log(selectedImage)
   return (
     <>
-    <div className="mb-40">
+    <div className="mb-20">
     <div className="relative w-full h-[500px] md:flex md:h-auto">
   <div className="w-full h-[500px] md:w-1/2 bg-center bg-no-repeat bg-cover"
     style={{ backgroundImage: `url(${selectedImage?.images?.webp?.large_image_url})` }}
@@ -138,22 +128,23 @@ if (dataCarousel && dataCarousel.length > 0) {
 
 
     </div>
-    <div className="relative">
-        <div className="flex max-w-full overflow-x-hidden">
-        {dataCarousel &&
-            dataCarousel.map((image, idx) => (
-            <div
-                onClick={() => handleSelectedImageChange(idx)}
-                style={{ backgroundImage: `url(${image?.images?.webp?.image_url})` }}
-                key={idx}
-                className={`mr-2 h-[150px] min-w-[150px] border-[3px] border-transparent bg-center bg-no-repeat bg-cover ${
-                selectedImageIndex === idx ? "border-yellow-500" : ""
-                }`}
-                ref={(el) => (carouselItemsRef.current[idx] = el)}
-            />
+    <div className="relative h-full">
+        <div className="flex overflow-x-auto whitespace-nowrap h-full  scrollbar-thumb-blue-500 scrollbar-thin">
+            {dataCarousel &&
+                dataCarousel.map((image, idx) => (
+                <div
+                    onClick={() => handleSelectedImageChange(idx)}
+                    style={{ backgroundImage: `url(${image?.images?.webp?.image_url})` }}
+                    key={idx}
+                    className={`mr-2 h-[150px] min-w-[150px] border-[3px] border-transparent bg-center bg-no-repeat bg-cover ${
+                        selectedImageIndex === idx ? "border-yellow-500" : ""
+                    }`}
+                    ref={(el) => (carouselItemsRef.current[idx] = el)}
+                />
             ))}
         </div>
     </div>
+
     </div>
     </>
     );

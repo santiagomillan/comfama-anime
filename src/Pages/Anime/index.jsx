@@ -1,29 +1,38 @@
 import { useParams } from 'react-router-dom';
 import  { useEffect, useState } from "react";
 import BasicCard from '../../Components/BasicCard';
+import Loading from '../../Components/Loading';
 
 const Anime = () => {
   const { id } = useParams();
 
   const [animeData, setAnimeData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
+useEffect(() => {
+    setIsLoading(true); // Comienza la carga
     fetch(`https://comfama-back-0-2.vercel.app/api/anime/${id}`)
-    // (`https://comfama-back-0-2.vercel.app/api/anime/${id}`)(`http://localhost:3000/api/anime/${id}`)
-        .then(response => response.json())
-      .then((response) => response)
-      .then((data) => {
-        console.log("xxxx",data); 
-        console.log(`https://comfama-back-0-2.vercel.app/api/anime/${id}`)
+      .then(response => response.json())
+      .then(data => {
         setAnimeData(data);
+        setIsLoading(false); 
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error);
+        setIsLoading(false); 
+      });
   }, [id]);
+
+  if (isLoading) {
+    return <Loading/>; 
+  }
+
+  if (!animeData) {
+    return null; 
+  }
 
 const data = animeData?.data?.data;
 const related = animeData?.additionalInfo;
-
-console.log("data",related)
 
   return (
     <>
