@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom"
 import { BsFillArrowRightSquareFill } from "react-icons/bs";
 import { BsFillArrowLeftSquareFill } from "react-icons/bs";
 import { AnimeContext } from '../../Components/Context';
+import { useAverageScore } from '../../hooks/useAverageScore';
 
 const Carousel = () => {
 const { animeData } = useContext(AnimeContext);
@@ -10,6 +11,31 @@ const dataCarousel = animeData.data;
 const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 const [selectedImage, setSelectedImage] = useState(null);
 const carouselItemsRef = useRef([]);
+
+
+const [rankingAverage, setRankingAverage] = useState(null);
+
+useEffect(() => {
+  const fetchRanking = async () => {
+    if (selectedImage) {
+      const response = await fetch(`https://comfama-back-0-2.vercel.app/api/anime/ranking/${selectedImage.mal_id}`);
+      const data = await response.json();
+      setRankingAverage(data); // Asegúrate de que 'ranking' es la propiedad correcta
+    }
+  };
+
+  fetchRanking();
+}, [selectedImage]);
+
+const [imageSrc, setImageSrc] = useState("../../../public/404.png");
+
+
+
+console.log("rankingAverage", rankingAverage)
+const averageScore = useAverageScore(rankingAverage);
+
+  console.log(`Average score for selected image:` ,averageScore);
+
 
 useEffect(() => {
     if (dataCarousel?.images?.webp?.image_url && dataCarousel[0]?.images?.webp?.image_url) {
@@ -75,6 +101,27 @@ if (dataCarousel && dataCarousel.length > 0) {
     handleSelectedImageChange(newIdx);
 }
 };
+
+useEffect(() => {
+    let newImageSrc;
+    switch (averageScore?.message) {
+      case "I do not recommend it.":
+        newImageSrc = "/dont3.jpg";
+        break;
+      case "You may have fun.":
+        newImageSrc = "/fun.jpg";
+        break;
+      case "Great, this is one of the best anime.":
+        newImageSrc = "/theBest.jpg";
+        break;
+      default:
+        newImageSrc = "./404.png";
+    }
+    setImageSrc(newImageSrc);
+  }, [selectedImage, averageScore]);
+
+  console.log(selectedImage)
+
   return (
     <>
     <div className="mb-20">
@@ -103,7 +150,7 @@ if (dataCarousel && dataCarousel.length > 0) {
         <div className="flex justify-between flex-wrap mb-4">
             <div className="w-full md:w-1/2">
             <p>Rank: {selectedImage?.rank}</p>
-            <p>Year: {selectedImage?.year ? selectedImage?.year  : selectedImage?.aired?.from.split("-")[0]}</p>
+            <p>Year: {selectedImage?.year ? selectedImage?.year  : (selectedImage?.aired?.from ? selectedImage?.aired?.from.split("-")[0] : "N/A")}</p>
             </div>
             <div className="w-full md:w-1/2">
             <p>Score: {selectedImage?.score}</p>
@@ -115,18 +162,30 @@ if (dataCarousel && dataCarousel.length > 0) {
             <span key={idx} className="inline-block bg-sky-600 rounded-full px-3 py-1 text-sm font-semibold text-white mr-2 mb-2">{genre.name}</span>
             ))
         }        
-        <button className="flex items-center space-x-2 mt-2 bg-sky-600 hover:bg-sky-700 text-gray-100 px-8 py-2 rounded transition duration-150" title="See more">
-            <NavLink to={`/anime/${selectedImage?.mal_id}`}>See more</NavLink>
-        </button>
+            
+<div className="flex flex-col h-full">
+  <div className="flex-shrink flex flex-row justify-between items-center">
+    <button className="bg-sky-600 hover:bg-sky-700 text-gray-100 px-8 py-2 rounded transition duration-150" title="See more">
+      <NavLink to={`/anime/${selectedImage?.mal_id}`}>See more</NavLink>
+    </button>
+    <div>
+  <img style={{ width: '100px' }}  src={imageSrc} alt={averageScore ? averageScore.message : "Loading"} />
+</div>
+  </div>
+</div>
     </div>
 
-    <div className="md:hidden absolute bottom-0 z-10 bg-opacity-50 bg-black text-white p-4 w-full">
-        <h2 className="text-2xl font-bold">{selectedImage?.title}</h2>
-        <button className="flex items-center space-x-2 mt-2 bg-sky-600 hover:bg-sky-700 text-gray-100 px-8 py-2 rounded transition duration-150" title="See more">
-            <NavLink to={`/anime/${selectedImage?.mal_id}`}>See more</NavLink>
-        </button>
-    </div>
+    <div className="md:hidden absolute bottom-0 z-10 bg-opacity-50 bg-black text-white p-4 w-full flex flex-col md:flex-row items-center">
+  <h2 className="text-2xl font-bold">{selectedImage?.title}</h2>
+  <div className="flex items-center space-x-2 mt-2">
+    <button className="bg-sky-600 hover:bg-sky-700 text-gray-100 px-8 py-2 rounded transition duration-150" title="See more">
+      <NavLink to={`/anime/${selectedImage?.mal_id}`}>See more</NavLink>
+    </button>
+    <img style={{ width: '100px' }}  src={imageSrc} alt={averageScore ? averageScore.message : "Loading"} />
+  </div>
+</div>
 
+   
 
     </div>
     <div className="relative h-full">
