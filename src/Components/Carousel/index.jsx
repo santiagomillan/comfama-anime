@@ -169,7 +169,7 @@ useEffect(() => {
       <NavLink to={`/anime/${selectedImage?.mal_id}`}>See more</NavLink>
     </button>
     <div>
-  <img style={{ width: '100px' }}  src={imageSrc} alt={averageScore ? averageScore.message : "Loading"} />
+  <img style={{ width: '100px' }} src={imageSrc} alt={averageScore ? averageScore.message : "Loading"} loading="lazy" />
 </div>
   </div>
 </div>
@@ -181,7 +181,7 @@ useEffect(() => {
     <button className="bg-sky-600 hover:bg-sky-700 text-gray-100 px-8 py-2 rounded transition duration-150" title="See more">
       <NavLink to={`/anime/${selectedImage?.mal_id}`}>See more</NavLink>
     </button>
-    <img style={{ width: '100px' }}  src={imageSrc} alt={averageScore ? averageScore.message : "Loading"} />
+    <img style={{ width: '100px' }} src={imageSrc} alt={averageScore ? averageScore.message : "Loading"} loading="lazy" />
   </div>
 </div>
 
