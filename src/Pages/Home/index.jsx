@@ -10,6 +10,8 @@ const Home = () => {
     const handleSearchChange = (event) => {
       setSearchValue(event.target.value);
 
+      console.log(`Sending search event for: ${event.target.value}`);
+
       ReactGA.event({
         category: 'Search',
         action: 'User typed in search bar',
