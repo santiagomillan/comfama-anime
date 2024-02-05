@@ -131,6 +131,9 @@ if (dataCarousel && dataCarousel.length > 0) {
 
     <div className="md:hidden absolute bottom-0 z-10 bg-opacity-50 bg-black text-white p-4 w-full">
         <h2 className="text-2xl font-bold">{selectedImage?.title}</h2>
+        <button className="flex items-center space-x-2 mt-2 bg-sky-600 hover:bg-sky-700 text-gray-100 px-8 py-2 rounded transition duration-150" title="See more">
+            <NavLink to={`/anime/${selectedImage?.mal_id}`}>See more</NavLink>
+        </button>
     </div>
 
 
