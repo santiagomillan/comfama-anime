@@ -1,16 +1,31 @@
+import { useContext } from 'react';
 import Carousel from "../../Components/Carousel";
 import SearchBar from "../../Components/SearchBar";
-
+import { AnimeContext } from '../../Components/Context'; 
+import ReactGA from 'react-ga';
 
 const Home = () => {
-    return (
-        <>
-            <div className="flex justify-center my-8">
-                <SearchBar />
-            </div>
-            <Carousel />
-        </>
-    );
-};
+    const { setSearchValue, searchError } = useContext(AnimeContext);
+  
+    const handleSearchChange = (event) => {
+      setSearchValue(event.target.value);
 
-export default Home;
+      ReactGA.event({
+        category: 'Search',
+        action: 'User typed in search bar',
+        label: event.target.value
+      });
+    };
+  
+    return (
+      <>
+        <div className="flex justify-center my-8">
+          <SearchBar onSearchChange={handleSearchChange} />
+          {searchError && <p>{searchError}</p>}
+        </div>
+        <Carousel />
+      </>
+    );
+  };
+  
+  export default Home;

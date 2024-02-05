@@ -1,34 +1,35 @@
-import  { useEffect, useRef, useState } from "react";
+import  { useContext, useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router-dom"
 import { BsFillArrowRightSquareFill } from "react-icons/bs";
 import { BsFillArrowLeftSquareFill } from "react-icons/bs";
+import { AnimeContext } from '../../Components/Context';
 
 const Carousel = () => {
-const [animeData, setAnimeData] = useState([]);
-
-useEffect(() => {
-    const cachedData = localStorage.getItem('carouselData');
-    if (cachedData) {
-        const parsedData = JSON.parse(cachedData);
-        setAnimeData(parsedData);
-        setSelectedImage(parsedData.data[0]);
-    } else {
-        fetch(`https://api.jikan.moe/v4/top/anime?page=1&limit=15`)
-            .then((response) => response.json())
-            .then((data) => {
-                setAnimeData(data);
-                setSelectedImage(data.data[0]);
-                localStorage.setItem('carouselData', JSON.stringify(data));
-            })
-            .catch((error) => console.log(error));
-    }
-}, []);
-
-
+const { animeData } = useContext(AnimeContext);
 const dataCarousel = animeData.data;
 const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 const [selectedImage, setSelectedImage] = useState(null);
 const carouselItemsRef = useRef([]);
+
+useEffect(() => {
+    if (dataCarousel?.images?.webp?.image_url && dataCarousel[0]?.images?.webp?.image_url) {
+      carouselItemsRef.current = carouselItemsRef.current.slice(
+        0,
+        dataCarousel.length
+      );
+
+      setSelectedImageIndex(0);
+      setSelectedImage(dataCarousel[0]);
+    }
+  }, [dataCarousel]);
+
+  useEffect(() => {
+    if (animeData.data && animeData.data.length > 0) {
+      setSelectedImage(animeData.data[0]);
+      setSelectedImageIndex(0);
+    }
+  }, [animeData]);
+
 
 useEffect(() => {
 if (dataCarousel?.images?.webp?.image_url && dataCarousel[0]?.images?.webp?.image_url) {

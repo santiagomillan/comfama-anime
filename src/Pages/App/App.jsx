@@ -8,6 +8,7 @@ import NotFound from '../NotFound'
 import Anime from '../Anime'
 
 
+
 function App() {
 
 const AppRoutes = () => {
