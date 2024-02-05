@@ -31,7 +31,6 @@ const [imageSrc, setImageSrc] = useState("../../../public/404.png");
 
 
 
-console.log("rankingAverage", rankingAverage)
 const averageScore = useAverageScore(rankingAverage);
 
   console.log(`Average score for selected image:` ,averageScore);
@@ -120,7 +119,6 @@ useEffect(() => {
     setImageSrc(newImageSrc);
   }, [selectedImage, averageScore]);
 
-  console.log(selectedImage)
 
   return (
     <>
