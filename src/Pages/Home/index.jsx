@@ -15,6 +15,12 @@ const Home = () => {
         action: 'User typed in search bar',
         label: event.target.value
       });
+
+      setSearchValue(event.target.value);
+
+      window.gtag('event', 'search', {
+        'search_term': event.target.value
+      });
     };
   
     return (
